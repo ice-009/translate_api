@@ -1,4 +1,3 @@
-// src/routes/translate.ts
 
 import express from 'express';
 import axios from 'axios';
@@ -6,7 +5,6 @@ import TranslationModel, { ITranslation } from '../models/model';
 
 const router = express.Router();
 
-// Middleware to check the translation in the database
 const checkDatabase = async (
   query: string,
   sourceLanguage: string,
@@ -22,13 +20,12 @@ router.get('/', async (req, res) => {
 
   if (query && source_language && destination_language) {
     try {
-      // Check if translation is available in the database
       const translation = await checkDatabase(query, source_language, destination_language);
 
       if (translation) {
         res.json({ translation: translation.translation });
       } else {
-        // Use Google Translate API to fetch the translation
+       
         const googleTranslateUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${source_language}&tl=${destination_language}&dt=t&q=${query}`;
 
         const response = await axios.get(googleTranslateUrl);
